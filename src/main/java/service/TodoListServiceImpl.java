@@ -3,8 +3,6 @@ package service;
 import entity.TodoList;
 import repository.TodoListRepo;
 
-import javax.sql.DataSource;
-
 public class TodoListServiceImpl implements TodolistService {
     public TodoListRepo todoListRepo;
 
@@ -29,8 +27,9 @@ public class TodoListServiceImpl implements TodolistService {
 
     @Override
     public void addTodoList(String todo) {
-       String sql = "INSERT INTO todolist(todo) VALUES = (?)";
-
+        TodoList todoList = new TodoList(todo);
+        todoListRepo.add(todoList);
+        System.out.println("SUCCESS MENAMBAHKAN DATA TODOLIST " + todo);
     }
 
     @Override

@@ -23,7 +23,7 @@ public class TodoListRepoImpl implements TodoListRepo{
 
     @Override
     public void add(TodoList todoList) {
-        String sql = "INSERT INTO todolist(todo) VALUES = (?)";
+        String sql = "INSERT INTO todolist(todo) VALUES  (?)";
         try(Connection connection = dataSource.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, todoList.getTodo());
             statement.executeUpdate();
