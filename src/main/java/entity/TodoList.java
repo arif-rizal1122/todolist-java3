@@ -1,5 +1,7 @@
 package entity;
 
+
+// membuat table database
 public class TodoList {
 
     private String todo;
