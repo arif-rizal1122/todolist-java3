@@ -32,9 +32,20 @@ public class RepositoryTest {
 
     @Test
     void testRemove(){
-        System.out.println( todoListRepo.remove(4));
-        System.out.println( todoListRepo.remove(5));
-        System.out.println( todoListRepo.remove(6));
+        System.out.println( todoListRepo.remove(9));
+    }
+
+    @Test
+    void testGetAll(){
+       todoListRepo.add(new TodoList("arif"));
+       todoListRepo.add(new TodoList("rizal"));
+       todoListRepo.add(new TodoList("aza"));
+
+       TodoList[] todoLists = todoListRepo.getAll();
+       for (var todoList : todoLists){
+           System.out.println(todoList.getId() + " : " + todoList.getTodo());
+       }
+
     }
 
 
