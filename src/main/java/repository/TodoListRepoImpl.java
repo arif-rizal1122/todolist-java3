@@ -5,6 +5,7 @@ import entity.TodoList;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class TodoListRepoImpl implements TodoListRepo{
@@ -53,27 +54,69 @@ public class TodoListRepoImpl implements TodoListRepo{
         return true;
     }
 
-    @Override
-    public boolean remove(Integer number) {
-        // Validasi input
-        if (number <= 0 || number > data.length) {
-            return false;
+
+
+    private boolean isExists(Integer number){
+        String sql = "SELECT id FROM todolist WHERE id = ?";
+        try(Connection connection = dataSource.getConnection();
+        PreparedStatement statement = connection.prepareStatement(sql)) {
+        statement.setInt(1, number);
+        try(ResultSet set = statement.executeQuery()) {
+            if (set.next()){
+                return true;
+            } else {
+                return false;
+            }
         }
-
-        // Periksa apakah slot yang akan dihapus kosong
-        if (data[number - 1] == null) {
-            return false;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-
-        // Geser elemen-elemen setelah yang dihapus
-        for (int i = (number - 1); i < data.length - 1; i++) {
-            data[i] = data[i + 1];
-        }
-
-        // Set elemen terakhir menjadi null
-        data[data.length - 1] = null;
-
-        return true;
     }
 
+    @Override
+    public boolean remove(Integer number) {
+        if (isExists(number)){
+            String sql = "DELETE FROM todolist WHERE id = ?";
+            try(Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, number);
+                statement.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            return false;
+        }
+    }
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
