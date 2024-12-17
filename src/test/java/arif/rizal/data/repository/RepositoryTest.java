@@ -25,12 +25,19 @@ public class RepositoryTest {
     void tetAdd(){
         TodoList todoList = new TodoList();
         todoList.setTodo("arif rizal");
-
+        todoList.setTodo("arif");
+        todoList.setTodo("rizal");
         todoListRepo.add(todoList);
-
-
-
     }
+
+    @Test
+    void testRemove(){
+        System.out.println( todoListRepo.remove(4));
+        System.out.println( todoListRepo.remove(5));
+        System.out.println( todoListRepo.remove(6));
+    }
+
+
 
     @AfterEach
     void tearDown(){
